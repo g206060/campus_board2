@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}学内掲示板 - 掲示詳細{% endblock %}
+
+{% block header %}
+{% endblock %}
+
+{% block keijiban %}
+<h2>掲示詳細ページ</h2>
+{% endblock %}
+
+{% block nav %}
+{% endblock %}
+
+{% block contents %}
+<div class="container my-div-style">
+    <div class="row">
+        <div class="col-3">
+            <strong>タイトル</strong>
+        </div>
+        <div class="col-9">
+            {{ post.post_title }}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>掲示板名</strong>
+        </div>
+        <div class="col-9">
+            {{ post.board }}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>掲載開始日時</strong>
+        </div>
+        <div class="col-9">
+            {{ post.started_at }}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>掲載終了日時</strong>
+        </div>
+        <div class="col-9">
+            {{ post.ended_at }}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>概要</strong>
+        </div>
+        <div class="col-9">
+            {{ post.post_overview }}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>写真</strong>
+        </div>
+        <div class="col-3">
+            {% if post.post_photo %}
+                <img src="{{ post.post_photo.url }}" width="200", height="200">
+            {% endif %}
+        </div>
+    </div>
+    
+    <hr>
+    
+    <div class="row">
+        <div class="col-3">
+            <strong>ファイル</strong>
+        </div>
+        <div class="col-3">
+            {% if post.post_upload %}
+                <a href="{{ post.post_upload.url }}">{{ post.file_name }}</a>
+            {% endif %}
+        </div>
+    </div>
+    <hr>
+    
+    <a class="btn btn-success mt-5 mb-3" href="{% url 'board:post_update' object.pk %}">編集</a>
+    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'board:post_delete' object.pk %}">削除</a>
+</div>
+
+<section>
+    <br>
+    <a href="{% url 'board:index' %}">戻る</a>
+</section>
+{% endblock %}
