@@ -9,6 +9,12 @@ class Board(models.Model):
 	def __str__(self):
 		return self.board_name
 		
+class Tag(models.Model):
+	"""タグモデル"""
+	name = models.CharField(verbose_name='タグ', max_length=256)
+	def __str__(self):
+		return self.name
+
 class Post(models.Model):
 	"""掲示物モデル"""
 	board = models.ForeignKey(Board, verbose_name='掲示板名', on_delete=models.PROTECT)
@@ -18,6 +24,7 @@ class Post(models.Model):
 	ended_at = models.DateTimeField(verbose_name='掲載終了')
 	post_photo = models.ImageField(verbose_name='写真', null=True, blank=True)
 	post_upload = models.FileField(verbose_name='ファイル', upload_to='file/%y/%m/%d', null=True, blank=True)
+	tags = models.ManyToManyField(Tag, verbose_name='タグ')
 	def __str__(self):
 		return self.post_title
 		

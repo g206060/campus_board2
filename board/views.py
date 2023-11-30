@@ -2,8 +2,9 @@ from django import forms
 from django.views import generic
 from django.urls import reverse_lazy
 from django.views.generic import ListView
+from django.db.models import Q
 
-from .models import Board, Post
+from .models import Board, Post, Tag
 
 from .forms import PostCreateForm
 
@@ -19,6 +20,7 @@ class IndexView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
+        ctx["tag"] = Tag.objects.all()
         ctx['search_form'] = PostSearchForm(self.request.GET)
         return ctx
         
@@ -31,6 +33,10 @@ class IndexView(generic.ListView):
         if self.request.GET.get('board'):
             queryset = queryset.filter(
                 board=self.request.GET.get('board')
+            )
+        if self.request.GET.get('tags'):
+            queryset = queryset.filter(
+                tags=self.request.GET.get('tags')
             )
             
         return queryset
@@ -46,6 +52,18 @@ class PostSearchForm(forms.Form):
             ('4', 'アルバイト'),
             ('5', '学友会'),
             ('6', '就職課'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
+    )
+    tags = forms.fields.ChoiceField(
+        label='学年',
+        choices=(
+            ('', '未設定'),
+            ('1', '1学年'),
+            ('2', '2学年'),
+            ('3', '3学年'),
+            ('4', '4学年'),
         ),
         required=False,
         widget=forms.widgets.Select
@@ -69,6 +87,42 @@ class KyoumuView(generic.ListView):
         board=1
     )
 
+class GakuseiView(generic.ListView):
+    model = Post
+    template_name = 'board_gakusei.html'
+    paginate_by = 3
+    
+    # get_context_data関数をオーバーライド
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        
+        # 2つ目のモデルを指定
+        ctx["board"] = Board.objects.all()
+        ctx['search_form'] = PostSearchForm(self.request.GET)
+        return ctx
+
+    queryset = Post.objects.filter(
+        board=2
+    )
+
+class ShienView(generic.ListView):
+    model = Post
+    template_name = 'board_shien.html'
+    paginate_by = 3
+    
+    # get_context_data関数をオーバーライド
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        
+        # 2つ目のモデルを指定
+        ctx["board"] = Board.objects.all()
+        ctx['search_form'] = PostSearchForm(self.request.GET)
+        return ctx
+
+    queryset = Post.objects.filter(
+        board=3
+    )
+
 class ArubaitoView(generic.ListView):
     model = Post
     template_name = 'board_arubaito.html'
@@ -86,7 +140,42 @@ class ArubaitoView(generic.ListView):
     queryset = Post.objects.filter(
         board=4
     )
+
+class GakuyuView(generic.ListView):
+    model = Post
+    template_name = 'board_gakuyu.html'
+    paginate_by = 3
     
+    # get_context_data関数をオーバーライド
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        
+        # 2つ目のモデルを指定
+        ctx["board"] = Board.objects.all()
+        ctx['search_form'] = PostSearchForm(self.request.GET)
+        return ctx
+
+    queryset = Post.objects.filter(
+        board=5
+    )
+
+class JobView(generic.ListView):
+    model = Post
+    template_name = 'board_job.html'
+    paginate_by = 3
+    
+    # get_context_data関数をオーバーライド
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        
+        # 2つ目のモデルを指定
+        ctx["board"] = Board.objects.all()
+        ctx['search_form'] = PostSearchForm(self.request.GET)
+        return ctx
+
+    queryset = Post.objects.filter(
+        board=6
+    )
 
 class DetailView(generic.DetailView):
     model = Post

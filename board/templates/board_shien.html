@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}学内掲示板 - アルバイト{% endblock %}
+{% block title %}学内掲示板 - 学生支援担当{% endblock %}
 
 {% block header %}
 <header>
@@ -12,7 +12,7 @@
 {% endblock %}
 
 {% block keijiban %}
-<h2>アルバイト</h2>
+<h2>学生支援担当</h2>
 <h3>掲示板一覧</h3>
 {% endblock %}
 
@@ -21,10 +21,10 @@
     <ul>
         <li class="navItem"><a href="{% url 'board:index' %}" title="トップページ">トップページ</a></li>
         <li class="navItem"><a href="{% url 'board:board_kyoumu' %}" title="教務課">教務課</a></li>
-        <li class="navItem"><a href="{% url 'board:board_shien' %}" title="学生支援担当">学生支援担当</a></li>
         <li class="navItem"><a href="{% url 'board:board_job' %}" title="就職課">就職課</a></li>
         <li class="navItem"><a href="{% url 'board:board_gakusei' %}" title="学生課">学生課</a></li>
         <li class="navItem"><a href="{% url 'board:board_gakuyu' %}" title="学友会">学友会</a></li>
+        <li class="navItem"><a href="{% url 'board:board_arubaito' %}" title="アルバイト">アルバイト</a></li>
     </ul>
 </nav>
 {% endblock %}
