@@ -146,3 +146,5 @@ AUTHENTICATION_BACKENDS = [
 
 # ログアウトリンクのクリック一発でログアウトする設定
 ACCOUNT_LOGOUT_ON_GET = True
+
+STATICFILES_DIRS = [ BASE_DIR / 'static' ]

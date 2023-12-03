@@ -5,60 +5,84 @@
 {% block title %}学内掲示板 - 学生支援担当{% endblock %}
 
 {% block header %}
-<header>
-    <a href="{% url 'account_login' %}" class="btn btn-primary btn-xl rounded-pill mt-5">LOG IN</a>
-    <a class="btn btn-primary float-right" href="{% url 'board:post_create' %}">新規作成</a>
-</header>
+<a href="{% url 'account_login' %}" class="btn btn-primary float-right">LOG IN</a>
+<a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
 {% endblock %}
 
-{% block keijiban %}
-<h2>学生支援担当</h2>
-<h3>掲示板一覧</h3>
-{% endblock %}
-
-{% block nav %}
-<nav class="globalnav">
-    <ul>
-        <li class="navItem"><a href="{% url 'board:index' %}" title="トップページ">トップページ</a></li>
-        <li class="navItem"><a href="{% url 'board:board_kyoumu' %}" title="教務課">教務課</a></li>
-        <li class="navItem"><a href="{% url 'board:board_job' %}" title="就職課">就職課</a></li>
-        <li class="navItem"><a href="{% url 'board:board_gakusei' %}" title="学生課">学生課</a></li>
-        <li class="navItem"><a href="{% url 'board:board_gakuyu' %}" title="学友会">学友会</a></li>
-        <li class="navItem"><a href="{% url 'board:board_arubaito' %}" title="アルバイト">アルバイト</a></li>
-    </ul>
-</nav>
-{% endblock %}
+{% block board-title %}学生支援担当{% endblock %}
 
 {% block contents %}
-<h3>掲示物一覧</h3>
-    {% for post in post_list %}
-    <div class="post-preview">
-        <hr>
-        <a href="{% url 'board:post_detail' post.pk %}">
-            {% if post.post_photo %}
-                <img src="{{ post.post_photo.url }}" width="200" height="200"/>
-            {% else %}
-                {% for board in board %}
-                    <img src="{{ board.board_img.url }}" width="200" height="200"/>
-                {% endfor %}
-            {% endif %}
-            <h2 class="post-title">
-                {{ post.post_title }}
-            </h2>
-            <h3 class="post-overview">
-                {{ post.post_overview|truncatechars:20 }}
-            </h3>
-        </a>
-        <p class="post-started-at">掲載日時：{{ post.started_at }}</p>
-        <p class="board-name">掲示板名：{{ post.board }}</p>
+    <div class="container text-center">
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <div class="alert alert-secondary" role="alert">
+                    <div class="mb-3">
+                        <label for="exampleSelect" class="form-label">掲示板一覧</label>
+                        {% block nav %}
+                        <nav class="globalnav">
+                            <ul>
+                                <li class="navItem"><a href="{% url 'board:index' %}" title="掲示板トップ">掲示板トップ</a></li>
+                                <li class="navItem"><a href="{% url 'board:board_kyoumu' %}" title="教務課">教務課</a></li>
+                                <li class="navItem"><a href="{% url 'board:board_arubaito' %}" title="アルバイト">アルバイト</a></li>
+                                <li class="navItem"><a href="{% url 'board:board_job' %}" title="就職課">就職課</a></li>
+                                <li class="navItem"><a href="{% url 'board:board_gakusei' %}" title="学生課">学生課</a></li>
+                                <li class="navItem"><a href="{% url 'board:board_gakuyu' %}" title="学友会">学友会</a></li>
+                            </ul>
+                        </nav>
+                        {% endblock %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row justify-content-md-center">
+            <div class="col-md-10">
+                <div class="alert alert-secondary" role="alert">
+                    <div class="mb-3">
+                        <label for="exampleSelect" class="form-label">検索メニュー</label>
+                        <form method="GET" class="post-form">
+                            {% csrf_token %}
+                            {{ search_form.as_p }}
+                            <input type="submit" value="検索">
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-    {% empty %}
-    <p>投稿がありません。</p>
-    {% endfor %}
-    
-    <hr>
-    
-    <!-- ページネーション処理 -->
+
+    <div class="board py-5 bg-body-tertiary">
+        <div class="container">
+            <div class="post-title text-center">
+                <p>掲示物一覧</p>
+            </div>
+            <div class="row row-cols-1 row-cols-md-2 g-2">
+                {% for post in post_list %}
+                <div class="col">
+                    <div class="card text-center">
+                        <div class="card-header">
+                            {{ post.board }}
+                        </div>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                {{ post.post_title }}
+                            </h5>
+                            <p class="card-text">
+                                {{ post.post_overview|truncatechars:20 }}
+                            </p>
+                            <a href="{% url 'board:post_detail' post.pk %}" class="btn btn-primary">詳細表示</a>
+                        </div>
+                        <div class="card-footer text-body-secondary">
+                            {{ post.started_at }}
+                        </div>
+                    </div>
+                </div>
+                {% empty %}
+                <p>投稿がありません。</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     {% if is_paginated %}
     <ul class="pagination">
         <!-- 前ページへのリンク -->
@@ -66,19 +90,19 @@
         <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.previous_page_number }}">
                 <span aria-hidden="true">&laquo;</span>
-            </a>
+             </a>
         </li>
         {% endif %}
-        
+
         <!-- ページ数表示 -->
         {% for page_num in page_obj.paginator.page_range %}
-            {% if page_obj.number == page_num %}
-            <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
-            {% else %}
-            <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
-            {% endif %}
+        {% if page_obj.number == page_num %}
+        <li class="page-item active"><a class="page-link" href="#">{{ page_num }}</a></li>
+        {% else %}
+        <li class="page-item"><a class="page-link" href="?page={{ page_num }}">{{ page_num }}</a></li>
+        {% endif %}
         {% endfor %}
-        
+
         <!-- 次ページへのリンク -->
         {% if page_obj.has_next %}
         <li class="page-item">
@@ -89,4 +113,5 @@
         {% endif %}
     </ul>
     {% endif %}
+</section>
 {% endblock %}

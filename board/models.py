@@ -9,9 +9,21 @@ class Board(models.Model):
 	def __str__(self):
 		return self.board_name
 		
-class Tag(models.Model):
-	"""タグモデル"""
-	name = models.CharField(verbose_name='タグ', max_length=256)
+class GradeTag(models.Model):
+	"""学年タグモデル"""
+	name = models.CharField(verbose_name='学年', max_length=256)
+	def __str__(self):
+		return self.name
+		
+class DepartmentTag(models.Model):
+	"""学科タグモデル"""
+	name = models.CharField(verbose_name='学科', max_length=256)
+	def __str__(self):
+		return self.name
+		
+class TypeTag(models.Model):
+	"""種別タグモデル"""
+	name = models.CharField(verbose_name='種別', max_length=256)
 	def __str__(self):
 		return self.name
 
@@ -24,7 +36,9 @@ class Post(models.Model):
 	ended_at = models.DateTimeField(verbose_name='掲載終了')
 	post_photo = models.ImageField(verbose_name='写真', null=True, blank=True)
 	post_upload = models.FileField(verbose_name='ファイル', upload_to='file/%y/%m/%d', null=True, blank=True)
-	tags = models.ManyToManyField(Tag, verbose_name='タグ')
+	gradetags = models.ManyToManyField(GradeTag, verbose_name='学年')
+	departmenttags = models.ManyToManyField(DepartmentTag, verbose_name='学科')
+	typetags = models.ManyToManyField(TypeTag, verbose_name='種別')
 	def __str__(self):
 		return self.post_title
 		

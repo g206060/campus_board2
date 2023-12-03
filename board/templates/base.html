@@ -1,31 +1,57 @@
 {% load static %}
 
-<html lang="ja">
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}{% endblock %}</title>
+<!doctype html>
+<html lang="ja" data-bs-theme="auto">
 
-        <meta name="keywords" content="">
-        <meta name="description" content="">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="">
+  <title>{% block title %}{% endblock %}</title>
 
-        <meta name="viewport" content="width=device-width,initial-scale=1">
-        <meta name="format-detection" content="">
+  <link href="{% static 'css/mystyle.css' %}" rel="stylesheet" type="text/css">
 
-        <link rel="stylesheet" href="#">
-        {% block head %}{% endblock %}
-    </head>
-    <body>
-        {% block header %}
+  {% block head %}
+  {% endblock %}
+</head>
+
+<body>
+  <header data-bs-theme="light">
+    <div class="navbar navbar-dark bg-dark shadow-sm">
+      <div class="container">
+        <a href="{% url 'board:index' %}" class="navbar-brand d-flex align-items-center">
+          <strong>学内掲示板</strong>
+        </a>
+      </div>
+      {% block header %}
+      {% endblock %}
+    </div>
+  </header>
+
+  <main>
+    <div class="board-container">
+      <section class="py-5 text-center container">
+        <div class="row py-lg-5">
+          <div class="col-lg-6 col-md-8 mx-auto">
+            <h1 class="fw-light">{% block board-title %}{% endblock %}</h1>
+          </div>
+        </div>
+        {% block contents %}
+          {% block nav %}
+          {% endblock %}
         {% endblock %}
+    </div>
+  </main>
 
-        <h1>学内掲示板</h1>
-        {% block keijiban %}{% endblock %}
-        
-        {% block nav %}{% endblock %}
+  <!-- フッターに書く内容を決める -->
+  <footer class="text-body-secondary py-5">
+    <div class="container">
+      <p class="float-end mb-1">
+        <a href="#">ページトップへ</a>
+      </p>
+    </div>
+  </footer>
 
-        {% block contents %}{% endblock %}
+</body>
 
-        <footer>
-        </footer>
-    </body>
 </html>

@@ -4,7 +4,7 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.db.models import Q
 
-from .models import Board, Post, Tag
+from .models import Board, Post, GradeTag, DepartmentTag, TypeTag
 
 from .forms import PostCreateForm
 
@@ -12,7 +12,7 @@ from .forms import PostCreateForm
 class IndexView(generic.ListView):
     model = Post
     template_name = 'index.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -20,8 +20,10 @@ class IndexView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx["tag"] = Tag.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormTop(self.request.GET)
         return ctx
         
     queryset = Post.objects.order_by(
@@ -34,14 +36,22 @@ class IndexView(generic.ListView):
             queryset = queryset.filter(
                 board=self.request.GET.get('board')
             )
-        if self.request.GET.get('tags'):
+        if self.request.GET.get('gradetags'):
             queryset = queryset.filter(
-                tags=self.request.GET.get('tags')
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
             )
             
         return queryset
         
-class PostSearchForm(forms.Form):
+class PostSearchFormTop(forms.Form):
     board = forms.fields.ChoiceField(
         label='掲示板',
         choices=(
@@ -56,7 +66,7 @@ class PostSearchForm(forms.Form):
         required=False,
         widget=forms.widgets.Select
     )
-    tags = forms.fields.ChoiceField(
+    gradetags = forms.fields.ChoiceField(
         label='学年',
         choices=(
             ('', '未設定'),
@@ -68,11 +78,35 @@ class PostSearchForm(forms.Form):
         required=False,
         widget=forms.widgets.Select
     )
+    departmenttags = forms.fields.ChoiceField(
+        label='学科',
+        choices=(
+            ('', '未設定'),
+            ('1', '機械工学コース'),
+            ('2', '電気電子通信工学コース'),
+            ('3', 'システム情報工学コース'),
+            ('4', '生命環境科学コース'),
+            ('5', '建築・土木工学コース'),
+            ('6', '感性デザイン学科'),
+            ('7', '大学院'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
+    )
+    typetags = forms.fields.ChoiceField(
+        label='種別',
+        choices=(
+            ('', '未設定'),
+            ('1', '連絡事項'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
+    )
     
 class KyoumuView(generic.ListView):
     model = Post
     template_name = 'board_kyoumu.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -80,17 +114,73 @@ class KyoumuView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=1
+    queryset = Post.objects.filter(board=1).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
+        
+class PostSearchFormDetail(forms.Form):
+    gradetags = forms.fields.ChoiceField(
+        label='学年',
+        choices=(
+            ('', '未設定'),
+            ('1', '1学年'),
+            ('2', '2学年'),
+            ('3', '3学年'),
+            ('4', '4学年'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
+    )
+    departmenttags = forms.fields.ChoiceField(
+        label='学科',
+        choices=(
+            ('', '未設定'),
+            ('1', '機械工学コース'),
+            ('2', '電気電子通信工学コース'),
+            ('3', 'システム情報工学コース'),
+            ('4', '生命環境科学コース'),
+            ('5', '建築・土木工学コース'),
+            ('6', '感性デザイン学科'),
+            ('7', '大学院'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
+    )
+    typetags = forms.fields.ChoiceField(
+        label='種別',
+        choices=(
+            ('', '未設定'),
+            ('1', '連絡事項'),
+        ),
+        required=False,
+        widget=forms.widgets.Select
     )
 
 class GakuseiView(generic.ListView):
     model = Post
     template_name = 'board_gakusei.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -98,17 +188,35 @@ class GakuseiView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=2
-    )
+    queryset = Post.objects.filter(board=2).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
 
 class ShienView(generic.ListView):
     model = Post
     template_name = 'board_shien.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -116,17 +224,35 @@ class ShienView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=3
-    )
+    queryset = Post.objects.filter(board=3).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
 
 class ArubaitoView(generic.ListView):
     model = Post
     template_name = 'board_arubaito.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -134,17 +260,35 @@ class ArubaitoView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=4
-    )
+    queryset = Post.objects.filter(board=4).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
 
 class GakuyuView(generic.ListView):
     model = Post
     template_name = 'board_gakuyu.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -152,17 +296,35 @@ class GakuyuView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=5
-    )
+    queryset = Post.objects.filter(board=5).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
 
 class JobView(generic.ListView):
     model = Post
     template_name = 'board_job.html'
-    paginate_by = 3
+    paginate_by = 6
     
     # get_context_data関数をオーバーライド
     def get_context_data(self, **kwargs):
@@ -170,12 +332,30 @@ class JobView(generic.ListView):
         
         # 2つ目のモデルを指定
         ctx["board"] = Board.objects.all()
-        ctx['search_form'] = PostSearchForm(self.request.GET)
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormDetail(self.request.GET)
         return ctx
 
-    queryset = Post.objects.filter(
-        board=6
-    )
+    queryset = Post.objects.filter(board=6).order_by('-started_at')
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
 
 class DetailView(generic.DetailView):
     model = Post
