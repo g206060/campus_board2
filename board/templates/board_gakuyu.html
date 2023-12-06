@@ -5,8 +5,10 @@
 {% block title %}学内掲示板 - 学友会{% endblock %}
 
 {% block header %}
-<a href="{% url 'account_login' %}" class="btn btn-primary float-right">LOG IN</a>
-<a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
+<div class="col-md-3 text-end">
+    <a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
+    <a href="{% url 'account_login' %}" class="btn btn-primary float-right">LOG IN</a>
+</div>
 {% endblock %}
 
 {% block board-title %}学友会{% endblock %}
@@ -17,18 +19,16 @@
             <div class="col-md-10">
                 <div class="alert alert-secondary" role="alert">
                     <div class="mb-3">
-                        <label for="exampleSelect" class="form-label">掲示板一覧</label>
+                        <label for="exampleSelect" class="form-label">掲示板リスト</label>
                         {% block nav %}
-                        <nav class="globalnav">
-                            <ul>
-                                <li class="navItem"><a href="{% url 'board:index' %}" title="掲示板トップ">掲示板トップ</a></li>
-                                <li class="navItem"><a href="{% url 'board:board_kyoumu' %}" title="教務課">教務課</a></li>
-                                <li class="navItem"><a href="{% url 'board:board_shien' %}" title="学生支援担当">学生支援担当</a></li>
-                                <li class="navItem"><a href="{% url 'board:board_job' %}" title="就職課">就職課</a></li>
-                                <li class="navItem"><a href="{% url 'board:board_gakusei' %}" title="学生課">学生課</a></li>
-                                <li class="navItem"><a href="{% url 'board:board_arubaito' %}" title="アルバイト">アルバイト</a></li>
-                            </ul>
-                        </nav>
+                        <ul class="list-unstyled">
+                            <li><a href="{% url 'board:index' %}" title="掲示板トップ" class="text-decoration-none">掲示板トップ</a></li>
+                            <li><a href="{% url 'board:board_kyoumu' %}" title="教務課" class="text-decoration-none">教務課</a></li>
+                            <li><a href="{% url 'board:board_shien' %}" title="学生支援担当" class="text-decoration-none">学生支援担当</a></li>
+                            <li><a href="{% url 'board:board_job' %}" title="就職課" class="text-decoration-none">就職課</a></li>
+                            <li><a href="{% url 'board:board_gakusei' %}" title="学生課" class="text-decoration-none">学生課</a></li>
+                            <li><a href="{% url 'board:board_arubaito' %}" title="アルバイト" class="text-decoration-none">アルバイト</a></li>
+                        </ul>
                         {% endblock %}
                     </div>
                 </div>

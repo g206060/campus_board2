@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     'board.apps.BoardConfig',
     'accounts.apps.AccountsConfig',
     'django_cleanup',
+    'widget_tweaks',
     
     'django.contrib.sites',
     'allauth',

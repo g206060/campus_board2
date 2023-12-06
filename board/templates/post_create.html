@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load static %}
+{% load widget_tweaks%}
 
 {% block title %}学内掲示板 - 掲示作成{% endblock %}
 
@@ -15,9 +16,82 @@
         <form method="POST" enctype='multipart/form-data'>
             {% csrf_token %}
             <table class="table">
-                {{ form.as_table }}
+                <tbody>
+                    <tr>
+                        <th>
+                            <label for="post_title">タイトル:</label>
+                        </th>
+                        <td>
+                            {{ form.post_title | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="id_board">掲示板:</label>
+                        </th>
+                        <td>
+                            {{ form.board | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="gradetags">学年:</label>
+                        </th>
+                        <td>
+                            {{ form.gradetags | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="departmenttags">学科:</label>
+                        </th>
+                        <td>
+                            {{ form.departmenttags | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="typetags">種別:</label>
+                        </th>
+                        <td>
+                            {{ form.typetags | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="post_overview">概要:</label>
+                        </th>
+                        <td>
+                            {{ form.post_overview | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="ended_at">掲載終了:</label>
+                        </th>
+                        <td>
+                            <input id="ended_at" type="datetime-local" name="ended_at" class="form-control" value="0000-00-00T00:00">
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="post_photo">写真:</label>
+                        </th>
+                        <td>
+                            {{ form.post_photo | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            <label for="post_upload">ファイル:</label>
+                        </th>
+                        <td>
+                            {{ form.post_upload | add_class:'form-control' }}
+                        </td>
+                    </tr>
+                </tbody>
             </table>
-            <button class="btn btn-primary" type="submit">作成</button>
+            <button class="btn btn-primary w-100 py-2" type="submit">作成</button>
         </form>
     </div>
 </div>

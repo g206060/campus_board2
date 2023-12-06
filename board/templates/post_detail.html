@@ -24,20 +24,59 @@
             {{ post.post_title }}
         </div>
     </div>
-    
+
     <hr>
-    
+
     <div class="row">
         <div class="col-3">
-            <strong>掲示板名</strong>
+            <strong>掲示板</strong>
         </div>
         <div class="col-9">
             {{ post.board }}
         </div>
     </div>
-    
+
     <hr>
-    
+
+    <div class="row">
+        <div class="col-3">
+            <strong>学年</strong>
+        </div>
+        <div class="col-9">
+            {% for gradetags in post.gradetags.all %}
+                {{ gradetags.name }},
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>学科</strong>
+        </div>
+        <div class="col-9">
+            {% for departmenttags in post.departmenttags.all %}
+                {{ departmenttags.name }},
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr>
+
+    <div class="row">
+        <div class="col-3">
+            <strong>種別</strong>
+        </div>
+        <div class="col-9">
+            {% for typetags in post.typetags.all %}
+                {{ typetags.name }}
+            {% endfor %}
+        </div>
+    </div>
+
+    <hr>
+
     <div class="row">
         <div class="col-3">
             <strong>掲載開始日時</strong>
@@ -46,9 +85,9 @@
             {{ post.started_at }}
         </div>
     </div>
-    
+
     <hr>
-    
+
     <div class="row">
         <div class="col-3">
             <strong>掲載終了日時</strong>
@@ -57,9 +96,9 @@
             {{ post.ended_at }}
         </div>
     </div>
-    
+
     <hr>
-    
+
     <div class="row">
         <div class="col-3">
             <strong>概要</strong>
@@ -68,34 +107,34 @@
             {{ post.post_overview | linebreaksbr }}
         </div>
     </div>
-    
+
     <hr>
-    
+
     <div class="row">
         <div class="col-3">
             <strong>写真</strong>
         </div>
         <div class="col-3">
             {% if post.post_photo %}
-                <img src="{{ post.post_photo.url }}" width="200", height="200">
+            <img src="{{ post.post_photo.url }}" width="200" , height="200">
             {% endif %}
         </div>
     </div>
-    
+
     <hr>
-    
+
     <div class="row">
         <div class="col-3">
             <strong>ファイル</strong>
         </div>
         <div class="col-3">
             {% if post.post_upload %}
-                <a href="{{ post.post_upload.url }}">{{ post.file_name }}</a>
+            <a href="{{ post.post_upload.url }}">{{ post.file_name }}</a>
             {% endif %}
         </div>
     </div>
     <hr>
-    
+
     <a class="btn btn-success mt-5 mb-3" href="{% url 'board:post_update' object.pk %}">編集</a>
     <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'board:post_delete' object.pk %}">削除</a>
 </div>
