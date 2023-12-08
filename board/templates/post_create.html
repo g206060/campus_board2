@@ -37,24 +37,69 @@
                         <th>
                             <label for="gradetags">学年:</label>
                         </th>
-                        <td>
-                            {{ form.gradetags | add_class:'form-control' }}
+                        <td class="form-control">
+                            <div>
+                                <input type="checkbox" id="1" name="gradetags" value="1" checked />
+                                <label for="1学年">1学年</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="2" name="gradetags" value="2" checked />
+                                <label for="2学年">2学年</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="3" name="gradetags" value="3" checked />
+                                <label for="3学年">3学年</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="4" name="gradetags" value="4" checked />
+                                <label for="4学年">4学年</label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <th>
                             <label for="departmenttags">学科:</label>
                         </th>
-                        <td>
-                            {{ form.departmenttags | add_class:'form-control' }}
+                        <td class="form-control">
+                            <div>
+                                <input type="checkbox" id="1" name="departmenttags" value="1" checked />
+                                <label for="機械工学コース">機械工学コース</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="2" name="departmenttags" value="2" checked />
+                                <label for="電気電子通信工学コース">電気電子通信工学コース</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="3" name="departmenttags" value="3" checked />
+                                <label for="システム情報工学コース">システム情報工学コース</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="4" name="departmenttags" value="4" checked />
+                                <label for="生命環境科学コース">生命環境科学コース</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="5" name="departmenttags" value="5" checked />
+                                <label for="建築・土木工学コース">建築・土木工学コース</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="6" name="departmenttags" value="6" checked />
+                                <label for="感性デザイン学科">感性デザイン学科</label>
+                            </div>
+                            <div>
+                                <input type="checkbox" id="7" name="departmenttags" value="7" checked />
+                                <label for="大学院">大学院</label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
                         <th>
                             <label for="typetags">種別:</label>
                         </th>
-                        <td>
-                            {{ form.typetags | add_class:'form-control' }}
+                        <td class="form-control">
+                            <div>
+                                <input type="checkbox" id="1" name="typetags" value="1" />
+                                <label for="連絡事項">連絡事項</label>
+                            </div>
                         </td>
                     </tr>
                     <tr>
