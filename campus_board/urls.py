@@ -23,7 +23,7 @@ from . import settings_common, settings_dev
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('board.urls')),
-    path('social-auth/', include('allauth.urls')),
+    path('accounts/', include('allauth.urls')),
 ]
 
 # 開発サーバーでメディアを配信できるようにする設定

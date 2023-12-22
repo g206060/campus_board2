@@ -36,6 +36,7 @@ INSTALLED_APPS = [
     'accounts.apps.AccountsConfig',
     'django_cleanup',
     'widget_tweaks',
+    'django_bootstrap5',
     
     'django.contrib.sites',
     'allauth',
@@ -135,17 +136,35 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
+# サイト識別用ID
 SITE_ID = 1
 
-AUTHENTICATION_BACKENDS = [
-    # ユーザー名認証
+AUTHENTICATION_BACKENDS = (
+    'allauth.account.auth.backends.AuthenticationBackend',
+# 一般ユーザー用(メールアドレス認証)
     'django.contrib.auth.backends.ModelBackend',
-    # メールアドレス認証
-    'allauth.account.auth_backends.AuthenticationBackend',
-]
+# 管理サイト用(ユーザー認証)
+)
 
+# メールアドレス認証に変更する設定
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
+ACCOUNT_USERNAME_REQUIRED = False
+
+# サインアップにメールアドレス認証をはさむよう設定
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+ACCOUNT_EMAIL_REQUIRED = True
+
+# ログイン/ログアウト後の遷移先を設定
+LOGIN_REDIRECT_URL = 'board:index'
+ACCOUNT_LOGOUT_REDIRECT_URL = 'account_login'
 
 # ログアウトリンクのクリック一発でログアウトする設定
 ACCOUNT_LOGOUT_ON_GET = True
+
+# django-allauthが送信するメールの件名に自動付与される接頭語をブランクにする設定
+ACCOUNT_EMAIL_SUBJECT_PREFIX = ''
+
+# デフォルトのメール送信元を設定
+DEFAULT_FROM_EMAIL = os.environ.get('FORM_EMAIL')
 
 STATICFILES_DIRS = [ BASE_DIR / 'static' ]
