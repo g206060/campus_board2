@@ -140,7 +140,7 @@ AUTH_USER_MODEL = 'accounts.CustomUser'
 SITE_ID = 1
 
 AUTHENTICATION_BACKENDS = (
-    'allauth.account.auth.backends.AuthenticationBackend',
+    'allauth.account.auth_backends.AuthenticationBackend',
 # 一般ユーザー用(メールアドレス認証)
     'django.contrib.auth.backends.ModelBackend',
 # 管理サイト用(ユーザー認証)
