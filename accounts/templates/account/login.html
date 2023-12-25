@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load django_bootstrap5 %}
+{% load socialaccount %}
 
 {% block title %}学内掲示板 - ログイン{% endblock %}
 
@@ -23,6 +24,7 @@
 
                 <button class="btn btn-primary" type="submit">ログイン</button>
                 <p><a class="button secondaryAction" href="{% url 'account_reset_password' %}">パスワードを忘れましたか？</a></p>
+                <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-primary">Login with Google</a>
             </form>
         </div>
     </div>
