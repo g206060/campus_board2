@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django_cleanup',
     'widget_tweaks',
     'django_bootstrap5',
-    'social_django',
     
     'django.contrib.sites',
     'allauth',
@@ -145,8 +144,8 @@ AUTHENTICATION_BACKENDS = (
 # 一般ユーザー用(メールアドレス認証)
     'django.contrib.auth.backends.ModelBackend',
 # 管理サイト用(ユーザー認証)
-    'social_core.backends.google.GoogleOAuth2',  # for Google authentication
 )
+
 
 # メールアドレス認証に変更する設定
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
