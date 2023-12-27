@@ -36,6 +36,15 @@
           <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">{% block board-title %}{% endblock %}</h1>
           </div>
+          {%if messages%}
+          <ul class="messages">
+            {% for message in messages %}
+            <div{% if message.tags %} class="my-3 alert alert-{% if message.tags == "error" %}danger{% else %}{{ message.tags }}{% endif %} alert-dismissible fade show"{% endif %} role="alert">
+              {{ message }}
+            </div>
+            {% endfor %}
+          </ul>
+          {% endif %}
         </div>
         {% block contents %}
           {% block nav %}

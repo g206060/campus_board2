@@ -7,4 +7,4 @@ def login(request):
 
 @login_required
 def home(request):
-    return render(request, 'index.html')
+    return render(request, 'home.html')

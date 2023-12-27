@@ -11,20 +11,15 @@
     <div class="row">
         <div class="my-div-style">
             <h1>ログイン</h1>
+            <br>
             <form method="post" action="{% url 'account_login' %}">
                 {% csrf_token %}
-
-                <div class="mb-4 col-4">
-                    {% bootstrap_form form %}
-                </div>
 
                 {% if redirect_field_value %}
                     <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}">
                 {% endif %}
 
-                <button class="btn btn-primary" type="submit">ログイン</button>
-                <p><a class="button secondaryAction" href="{% url 'account_reset_password' %}">パスワードを忘れましたか？</a></p>
-                <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-primary">Login with Google</a>
+                <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-primary">Googleアカウントでログイン</a>
             </form>
         </div>
     </div>

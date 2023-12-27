@@ -3,6 +3,7 @@ from django.views import generic
 from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.db.models import Q
+from django.contrib import messages
 
 from .models import Board, Post, GradeTag, DepartmentTag, TypeTag
 
@@ -370,14 +371,16 @@ class PostCreateView(generic.CreateView):
     model = Post
     template_name = "post_create.html"
     form_class = PostCreateForm
-    success_url = reverse_lazy('board:index')
+    success_url = reverse_lazy('board:post_create')
     
     def form_valid(self, form):
         post = form.save(commit=False)
         post.save()
+        messages.success(self.request, "掲示が作成されました。")
         return super().form_valid(form)
         
     def form_invalid(self, form):
+        messages.error(self.request, "掲示の作成に失敗しました。")
         return super().form_invalid(form)
     
 class PostUpdateView(generic.UpdateView):
@@ -389,11 +392,11 @@ class PostUpdateView(generic.UpdateView):
         return reverse_lazy('board:post_detail', kwargs={'pk': self.kwargs['pk']})
         
     def form_valid(self, form):
-        # messeges.success(self.request, '掲示を更新しました。')
+        messages.success(self.request, "掲示を更新しました。")
         return super().form_valid(form)
         
     def form_invalid(self, form):
-        # messeges.error(self.request, '掲示の更新に失敗しました。')
+        messages.error(self.request, "掲示の更新に失敗しました。")
         return super().form_invalid(form)
 
 class PostDeleteView(generic.DeleteView):
@@ -402,5 +405,5 @@ class PostDeleteView(generic.DeleteView):
     success_url = reverse_lazy('board:index')
     
     def delete(self, request, *args, **kwargs):
-        # messages.success(self.request, '掲示を削除しました。')
+        messages.success(self.request, "掲示を削除しました。")
         return super().delete(request, *args, **kwargs)
