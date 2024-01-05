@@ -8,7 +8,7 @@
 
 {% block contents %}
 <div class="container">
-    <div class="row">
+    <div class="row text-center">
         <div class="my-div-style">
             <h1>ログイン</h1>
             <br>
@@ -20,6 +20,9 @@
                 {% endif %}
 
                 <a href="{% provider_login_url 'google'%}?next=/" class="btn btn-primary">Googleアカウントでログイン</a>
+                <br>
+                <br>
+                <a href="{% url 'board:index' %}" class="btn btn-secondary">トップページに戻る</a>
             </form>
         </div>
     </div>

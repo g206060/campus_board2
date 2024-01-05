@@ -17,7 +17,7 @@
 {% block contents %}
 <div class="container my-div-style">
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>タイトル</strong>
         </div>
         <div class="col-9">
@@ -28,7 +28,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>掲示板</strong>
         </div>
         <div class="col-9">
@@ -39,7 +39,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>学年</strong>
         </div>
         <div class="col-9">
@@ -52,7 +52,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>学科</strong>
         </div>
         <div class="col-9">
@@ -65,7 +65,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>種別</strong>
         </div>
         <div class="col-9">
@@ -78,7 +78,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>掲載開始日時</strong>
         </div>
         <div class="col-9">
@@ -89,7 +89,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>掲載終了日時</strong>
         </div>
         <div class="col-9">
@@ -100,7 +100,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>概要</strong>
         </div>
         <div class="col-9">
@@ -111,7 +111,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>写真</strong>
         </div>
         <div class="col-3">
@@ -124,7 +124,7 @@
     <hr>
 
     <div class="row">
-        <div class="col-3">
+        <div class="col-3 text-center">
             <strong>ファイル</strong>
         </div>
         <div class="col-3">
@@ -134,12 +134,14 @@
         </div>
     </div>
     <hr>
-
-    <a class="btn btn-success mt-5 mb-3" href="{% url 'board:post_update' object.pk %}">編集</a>
-    <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'board:post_delete' object.pk %}">削除</a>
+    
+    <div class="text-center">
+        <a class="btn btn-success mt-5 mb-3" href="{% url 'board:post_update' object.pk %}">編集</a>
+        <a class="btn btn-danger mt-5 ml-2 mb-3" href="{% url 'board:post_delete' object.pk %}">削除</a>
+    </div>
 </div>
 
-<section>
+<section class="text-center">
     <br>
     <a href="{% url 'board:index' %}">戻る</a>
 </section>
