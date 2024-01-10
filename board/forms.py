@@ -7,5 +7,5 @@ class PostCreateForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        fields = ('board', 'post_title', 'post_overview', 'ended_at', 'post_photo', 'post_upload', 'gradetags', 'departmenttags', 'typetags')
+        fields = ('board', 'post_title', 'post_overview', 'ended_at', 'post_photo', 'post_upload', 'gradetags', 'departmenttags', 'typetags', 'user_name')
 

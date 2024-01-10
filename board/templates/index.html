@@ -7,8 +7,10 @@
 
 {% block header %}
 <div class="col-md-3 text-end">
-    <a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
     {% if user.is_authenticated %}
+    {% if request.user.is_staff %}
+    <a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
+    {% endif %}
     <a href="{% url 'account_logout' %}" class="btn btn-primary float-right">LOG OUT</a>
     {% else %}
     <a href="{% url 'account_login' %}" class="btn btn-primary float-right">LOG IN</a>

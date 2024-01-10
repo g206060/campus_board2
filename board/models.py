@@ -1,4 +1,5 @@
 from django.db import models
+from accounts.models import CustomUser
 
 import os
 
@@ -39,6 +40,7 @@ class Post(models.Model):
 	gradetags = models.ManyToManyField(GradeTag, verbose_name='学年')
 	departmenttags = models.ManyToManyField(DepartmentTag, verbose_name='学科')
 	typetags = models.ManyToManyField(TypeTag, verbose_name='種別')
+	user_name = models.ForeignKey(CustomUser, verbose_name='投稿者', on_delete=models.CASCADE)
 	def __str__(self):
 		return self.post_title
 		

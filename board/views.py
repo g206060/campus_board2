@@ -384,6 +384,7 @@ class PostCreateView(LoginRequiredMixin, generic.CreateView):
     
     def form_valid(self, form):
         post = form.save(commit=False)
+        post.user_name = self.request.user
         post.save()
         messages.success(self.request, "掲示が作成されました。")
         return super().form_valid(form)
