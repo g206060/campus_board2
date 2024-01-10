@@ -4,6 +4,7 @@ from . import views
 app_name = 'board'
 urlpatterns = [
     path('', views.IndexView.as_view(), name="index"),
+    path('mypage/', views.MypageView.as_view(), name="mypage"),
     path('kyoumu/', views.KyoumuView.as_view(), name="board_kyoumu"),
     path('gakusei/', views.GakuseiView.as_view(), name="board_gakusei"),
     path('shien/', views.ShienView.as_view(), name="board_shien"),

@@ -156,6 +156,12 @@
 
 <section class="text-center">
     <br>
-    <a href="{% url 'board:index' %}">戻る</a>
+    {% if user.is_authenticated %}
+    {% if request.user.is_staff %}
+    <a href="{% url 'board:mypage' %}">マイページへ戻る</a>
+    {% endif %}
+    {% endif %}
+    <br>
+    <a href="{% url 'board:index' %}">トップページへ戻る</a>
 </section>
 {% endblock %}

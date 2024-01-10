@@ -35,6 +35,7 @@
         <div class="row py-lg-5 text-center">
           <div class="col-lg-6 col-md-8 mx-auto">
             <h1 class="fw-light">{% block board-title %}{% endblock %}</h1>
+            {% block mypage %}{% endblock %}
           </div>
           {%if messages%}
           <ul class="messages">

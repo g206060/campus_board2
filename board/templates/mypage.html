@@ -3,13 +3,13 @@
 {% load static %}
 {% load widget_tweaks %}
 
-{% block title %}学内掲示板 - トップページ{% endblock %}
+{% block title %}学内掲示板 - マイページ{% endblock %}
 
 {% block header %}
 <div class="col-md-3 text-end">
     {% if user.is_authenticated %}
     {% if request.user.is_staff %}
-    <a href="{% url 'board:mypage' %}" class="btn btn-primary float-right">マイページ</a>
+    <a href="{% url 'board:post_create' %}" class="btn btn-primary float-right">新規作成</a>
     {% endif %}
     <a href="{% url 'account_logout' %}" class="btn btn-primary float-right">LOG OUT</a>
     {% else %}
@@ -18,29 +18,16 @@
 </div>
 {% endblock %}
 
-{% block board-title %}掲示板トップ{% endblock %}
+{% block board-title %}マイページ{% endblock %}
+
+{% block mypage %}
+<br>
+<h3>こんにちは！ {{ user.username }} さん</h3>
+<a href="{% url 'board:index' %}" class="btn btn-secondary w-100 py-2">トップページへ戻る</a>
+{% endblock %}
 
 {% block contents %}
     <div class="container text-center">
-        <div class="row justify-content-md-center">
-            <div class="col-md-10">
-                <div class="alert alert-secondary" role="alert">
-                    <div class="mb-3">
-                        <label for="exampleSelect" class="form-label">掲示板リスト</label>
-                        {% block nav %}
-                        <ul class="list-unstyled">
-                            <li><a href="{% url 'board:board_kyoumu' %}" title="教務課" class="text-decoration-none">教務課</a></li>
-                            <li><a href="{% url 'board:board_shien' %}" title="学生支援担当" class="text-decoration-none">学生支援担当</a></li>
-                            <li><a href="{% url 'board:board_job' %}" title="就職課" class="text-decoration-none">就職課</a></li>
-                            <li><a href="{% url 'board:board_gakusei' %}" title="学生課" class="text-decoration-none">学生課</a></li>
-                            <li><a href="{% url 'board:board_gakuyu' %}" title="学友会" class="text-decoration-none">学友会</a></li>
-                            <li><a href="{% url 'board:board_arubaito' %}" title="アルバイト" class="text-decoration-none">アルバイト</a></li>
-                        </ul>
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="row justify-content-md-center">
             <div class="col-md-10">
                 <div class="alert alert-secondary" role="alert">

@@ -6,7 +6,7 @@ from django.db.models import Q
 from django.contrib import messages
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Board, Post, GradeTag, DepartmentTag, TypeTag
+from .models import Board, Post, GradeTag, DepartmentTag, TypeTag, CustomUser
 
 from .forms import PostCreateForm
 
@@ -417,3 +417,51 @@ class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     def delete(self, request, *args, **kwargs):
         messages.success(self.request, "掲示を削除しました。")
         return super().delete(request, *args, **kwargs)
+        
+class MypageView(LoginRequiredMixin, generic.ListView):
+    model = Post
+    template_name = 'mypage.html'
+    paginate_by = 6
+    
+    # get_context_data関数をオーバーライド
+    def get_context_data(self, **kwargs):
+        ctx = super().get_context_data(**kwargs)
+        
+        # 2つ目のモデルを指定
+        ctx["board"] = Board.objects.all()
+        ctx["gradetags"] = GradeTag.objects.all()
+        ctx["departmenttags"] = DepartmentTag.objects.all()
+        ctx["typetags"] = TypeTag.objects.all()
+        ctx['search_form'] = PostSearchFormTop(self.request.GET)
+        return ctx
+        
+    queryset = Post.objects.order_by(
+        '-started_at'
+    )
+    
+    def get_queryset(self, **kwargs):
+        queryset = super().get_queryset(**kwargs)
+        current_user = self.request.user.username
+        user_data = CustomUser.objects.get(username=current_user)
+        if user_data:
+            queryset = Post.objects.filter(user_name=user_data).all()
+            queryset = queryset.order_by('-started_at')
+        if self.request.GET.get('board'):
+            queryset = queryset.filter(
+                board=self.request.GET.get('board')
+            )
+        if self.request.GET.get('gradetags'):
+            queryset = queryset.filter(
+                gradetags=self.request.GET.get('gradetags')
+            )
+        if self.request.GET.get('departmenttags'):
+            queryset = queryset.filter(
+                departmenttags=self.request.GET.get('departmenttags')
+            )
+        if self.request.GET.get('typetags'):
+            queryset = queryset.filter(
+                typetags=self.request.GET.get('typetags')
+            )
+            
+        return queryset
+    
