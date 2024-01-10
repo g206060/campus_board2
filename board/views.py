@@ -109,7 +109,7 @@ class PostSearchFormTop(forms.Form):
         widget=forms.widgets.Select
     )
     
-class KyoumuView(generic.ListView):
+class KyoumuView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_kyoumu.html'
     paginate_by = 6
@@ -187,7 +187,7 @@ class PostSearchFormDetail(forms.Form):
         widget=forms.widgets.Select
     )
 
-class GakuseiView(generic.ListView):
+class GakuseiView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_gakusei.html'
     paginate_by = 6
@@ -223,7 +223,7 @@ class GakuseiView(generic.ListView):
             
         return queryset
 
-class ShienView(generic.ListView):
+class ShienView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_shien.html'
     paginate_by = 6
@@ -259,7 +259,7 @@ class ShienView(generic.ListView):
             
         return queryset
 
-class ArubaitoView(generic.ListView):
+class ArubaitoView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_arubaito.html'
     paginate_by = 6
@@ -295,7 +295,7 @@ class ArubaitoView(generic.ListView):
             
         return queryset
 
-class GakuyuView(generic.ListView):
+class GakuyuView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_gakuyu.html'
     paginate_by = 6
@@ -331,7 +331,7 @@ class GakuyuView(generic.ListView):
             
         return queryset
 
-class JobView(generic.ListView):
+class JobView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'board_job.html'
     paginate_by = 6
@@ -367,16 +367,16 @@ class JobView(generic.ListView):
             
         return queryset
 
-class DetailView(generic.DetailView):
+class DetailView(LoginRequiredMixin, generic.DetailView):
     model = Post
     slug_field = "post_title"
     slug_url_kwarg = "post_title"
     
-class PostDetailView(generic.DetailView):
+class PostDetailView(LoginRequiredMixin, generic.DetailView):
     model = Post
     template_name = "post_detail.html"
     
-class PostCreateView(generic.CreateView):
+class PostCreateView(LoginRequiredMixin, generic.CreateView):
     model = Post
     template_name = "post_create.html"
     form_class = PostCreateForm
@@ -392,7 +392,7 @@ class PostCreateView(generic.CreateView):
         messages.error(self.request, "掲示の作成に失敗しました。")
         return super().form_invalid(form)
     
-class PostUpdateView(generic.UpdateView):
+class PostUpdateView(LoginRequiredMixin, generic.UpdateView):
     model = Post
     template_name = 'post_update.html'
     form_class = PostCreateForm
@@ -408,7 +408,7 @@ class PostUpdateView(generic.UpdateView):
         messages.error(self.request, "掲示の更新に失敗しました。")
         return super().form_invalid(form)
 
-class PostDeleteView(generic.DeleteView):
+class PostDeleteView(LoginRequiredMixin, generic.DeleteView):
     model = Post
     template_name = 'post_delete.html'
     success_url = reverse_lazy('board:index')
