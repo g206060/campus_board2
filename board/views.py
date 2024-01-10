@@ -98,7 +98,11 @@ class PostSearchFormTop(forms.Form):
         label='種別',
         choices=(
             ('', '未設定'),
+            ('', '--全般--'),
             ('1', '連絡事項'),
+            ('', '--アルバイト--'),
+            ('2', '長期'),
+            ('3', '短期'),
         ),
         required=False,
         widget=forms.widgets.Select
@@ -172,7 +176,11 @@ class PostSearchFormDetail(forms.Form):
         label='種別',
         choices=(
             ('', '未設定'),
+            ('', '--全般--'),
             ('1', '連絡事項'),
+            ('', '--アルバイト--'),
+            ('2', '長期'),
+            ('3', '短期'),
         ),
         required=False,
         widget=forms.widgets.Select
