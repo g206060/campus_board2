@@ -4,13 +4,14 @@ from django.urls import reverse_lazy
 from django.views.generic import ListView
 from django.db.models import Q
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Board, Post, GradeTag, DepartmentTag, TypeTag
 
 from .forms import PostCreateForm
 
 
-class IndexView(generic.ListView):
+class IndexView(LoginRequiredMixin, generic.ListView):
     model = Post
     template_name = 'index.html'
     paginate_by = 6
